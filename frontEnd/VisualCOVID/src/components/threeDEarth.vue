@@ -1,7 +1,40 @@
 <template>
   <el-container style="height: 100%">
     <el-main>
-      <div id="earth">
+      <el-card class="box-card">
+      <div class='wrapper'>
+        <div class='chart' id='earth'>
+        </div>
+      </div>
+      </el-card>
+      <div class="tool-bar" id="map_toolbar">
+        <el-descriptions title="Current Data Info">
+          <el-descriptions-item label="Date ">{{DateCurr}}</el-descriptions-item>
+          <el-descriptions-item label="Total Confirmed ">
+              <span style="color:green;font-weight:bolder">
+                {{summaryData.TotalConfirmed}}</span>
+          </el-descriptions-item>
+          <el-descriptions-item label="Total Deaths ">
+              <span style="color:red;font-weight:bolder">
+                {{summaryData.TotalDeaths}}</span>
+          </el-descriptions-item>
+          <el-descriptions-item label="New Confirmed ">
+              <span style="color:green;font-weight:bolder">
+                {{summaryData.NewConfirmed}}</span>
+          </el-descriptions-item>
+          <el-descriptions-item label="New Deaths ">
+              <span style="color:red;font-weight:bolder">
+              {{summaryData.NewDeaths}}</span>
+          </el-descriptions-item>
+        </el-descriptions>
+        <el-form :inline="false" :model="formInline" class="demo-form-inline">
+          <el-form-item label="Select Data Type:" style="font-weight: bold">
+            <el-select v-model="type" placeholder="data type" @change="onSubmit">
+              <el-option label="Total Death" value="total_3d_2"></el-option>
+              <el-option label="Total Confirm" value="total_3d_1"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
       </div>
     </el-main>
   </el-container>
@@ -22,12 +55,21 @@ export default {
   data(){
     return{
       worldData:[],
-      type: "total",
+      type: "total_3d_1",
       toolBarText :"Total Confirmed: ",
-      toolBarText2:"Total Deaths: "
+      toolBarText2:"Total Deaths: ",
+      formInline: {
+        user: '',
+        region: ''
+      },
+      DateCurr:'',
+      summaryData:[],
     }
   },
   methods: {
+    onSubmit(){
+      this.runWorldMapEN(this)
+    },
     /*
     using tencent api, data comes from Johns Hopkins
      */
@@ -56,19 +98,18 @@ export default {
         success :function (res)
         {
           let data = processPostmanAPIEarthData(res,context.type)
+          context.summaryData = res.Global
+          context.DateCurr = context.summaryData.Date.split('T')[0]
           context.getThreeDEarth(context,data)
         }
       })
     },
-    resizeMainContainer(container) {
-      container.style.width = window.innerWidth*0.75 + 'px';
-      container.style.height = window.innerHeight + 'px';
-    },
     getThreeDEarth(context, data)
     {
-      const mainContainer = document.getElementById('earth');
-      this.resizeMainContainer(mainContainer);
-      const mainChart = echarts.init(mainContainer);
+      const mainChart = echarts.init(document.getElementById('earth'));
+      window.addEventListener('resize', function () {
+        mainChart.resize()
+      })
       //initial the earth.
       let option =  {
         title: {
@@ -143,12 +184,6 @@ export default {
               diffuseIntensity: 0.2
             }
           },
-          /*layers: [{
-              type: 'overlay',
-              texture: cloud,
-              shading: 'realistic',
-              distance: 3
-              }],*/
           postEffect: {
             enable: true,
             depthOfField:
@@ -184,19 +219,7 @@ export default {
                 borderColor: 'white',
               },
               label: {
-                show:true/*
-                formatter: function (params) {
-                  return params.name + ":" + "Total confirm:" + params.value[2];
-                },
-                textStyle:
-                  {
-                    color: 'rgb(255,255,255)',
-                    borderWidth: 0,
-                    borderColor: '#fff',
-                    fontFamily: 'sans-serif',
-                    fontSize: 18,
-                    fontWeight: 700
-                  },*/
+                show:true
               },
             },
           barSize: 1.8,
@@ -208,15 +231,52 @@ export default {
           },
         }]
       };
+      if (context.type==='total_3d_2')
+      {
+        option.visualMap.max = 100000
+        option.tooltip.formatter= function(val) {
+          if(val.data == null) return ;
+          return '<span style="font-weight:bold">'+val.data.name +'</span>'+'<br/>'
+            +context.toolBarText+'<span style="color:Green;font-weight:bolder">'+val.data.other[0]+'</span><br/>'+
+            context.toolBarText2 + '<span style="color:red;font-weight:bolder">'+val.data.value[2]+'</span>'
+        }
+      }
       mainChart.setOption(option);
     }
   },
   mounted(){
     this.runWorldMapEN(this);
   },
+  props:{
+    msg:{
+      type:Object,
+      default:() => {}
+    }
+  },
+  watch:{
+    msg:{
+      deep: true,
+      handler(val) {
+        this.runWorldMapEN(val)
+      }
+    }
+  },
 }
 </script>
 
 <style scoped>
-
+.wrapper {
+  width: 100%;
+  background-color: black;
+}
+.wrapper .chart {
+  width: 90%;
+  margin:0 auto;
+  height: 600px;
+  background-color: black;
+  background-size: 100% 100%;
+}
+.tool-bar{
+  margin-top: 20px;
+}
 </style>

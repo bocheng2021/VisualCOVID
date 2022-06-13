@@ -4,9 +4,7 @@ import country from "../assets/country/countryEN.json";
 import countryCN from "../assets/country/country.json"
 export function processPostmanAPIEarthData(data,type)
 {
-  let summaryData = data.Global
   let countriesData = data.Countries
-  console.log(countriesData);
   let nameList = country
   const res = []
   let i = 0;
@@ -14,13 +12,22 @@ export function processPostmanAPIEarthData(data,type)
   for(i in countriesData)
   {
     const countryName = countriesData[i].Country;
-    if(nameList[countryName]!=null && type==="total")
+    if(nameList[countryName]!=null && type==="total_3d_1")
     {
       const value0 = nameList[countryName][0];
       const value1 = nameList[countryName][1];
       const value2 = countriesData[i].TotalConfirmed;
       const value3 = countriesData[i].TotalDeaths;
       res[index]={name:countryName,value:[value0,value1,value2],other:[value3]};
+      index ++;
+    }
+    else if(nameList[countryName]!=null && type==="total_3d_2")
+    {
+      const value0 = nameList[countryName][0];
+      const value1 = nameList[countryName][1];
+      const value2 = countriesData[i].TotalConfirmed;
+      const value3 = countriesData[i].TotalDeaths;
+      res[index]={name:countryName,value:[value0,value1,value3],other:[value2]};
       index ++;
     }
     else if(nameList[countryName]!=null && type==="total_2d")
@@ -95,6 +102,81 @@ export function processPostmanAPIEarthData(data,type)
         const value2 = countriesData[i].TotalConfirmed;
         const value3 = countriesData[i].TotalDeaths;
         res[index]={name:countryName,value:[value0,value1,value2],other:[value3]};
+        index ++;
+      }
+    }
+    else if(nameList[countryName]!=null && type==="total_2d_death")
+    {
+      if(countryName==="United States of America")
+      {
+        const value0 = nameList[countryName][0];
+        const value1 = nameList[countryName][1];
+        const value2 = countriesData[i].TotalConfirmed;
+        const value3 = countriesData[i].TotalDeaths;
+        res[index]={name:"United States",value:[value0,value1,value3],other:[value2]};
+        index ++;
+      }
+      else if(countryName==="Russian Federation")
+      {
+        const value0 = nameList[countryName][0];
+        const value1 = nameList[countryName][1];
+        const value2 = countriesData[i].TotalConfirmed;
+        const value3 = countriesData[i].TotalDeaths;
+        res[index]={name:"Russia",value:[value0,value1,value3],other:[value2]};
+        index ++;
+      }
+      else if(countryName==="Congo (Brazzaville)")
+      {
+        const value0 = nameList[countryName][0];
+        const value1 = nameList[countryName][1];
+        const value2 = countriesData[i].TotalConfirmed;
+        const value3 = countriesData[i].TotalDeaths;
+        res[index]={name:"Congo",value:[value0,value1,value3],other:[value2]};
+        index ++;
+      }
+      else if(countryName==="Congo (Kinshasa)")
+      {
+        const value0 = nameList[countryName][0];
+        const value1 = nameList[countryName][1];
+        const value2 = countriesData[i].TotalConfirmed;
+        const value3 = countriesData[i].TotalDeaths;
+        res[index]={name:"Dem. Rep. Congo",value:[value0,value1,value3],other:[value2]};
+        index ++;
+      }
+      else if(countryName==="Viet Nam")
+      {
+        const value0 = nameList[countryName][0];
+        const value1 = nameList[countryName][1];
+        const value2 = countriesData[i].TotalConfirmed;
+        const value3 = countriesData[i].TotalDeaths;
+        res[index]={name:"Vietnam",value:[value0,value1,value3],other:[value2]};
+        index ++;
+      }
+      else if(countryName==="Korea (North)")
+      {
+        const value0 = nameList[countryName][0];
+        const value1 = nameList[countryName][1];
+        const value2 = countriesData[i].TotalConfirmed;
+        const value3 = countriesData[i].TotalDeaths;
+        res[index]={name:"Dem. Rep. Korea",value:[value0,value1,value3],other:[value2]};
+        index ++;
+      }
+      else if(countryName==="Korea (South)")
+      {
+        const value0 = nameList[countryName][0];
+        const value1 = nameList[countryName][1];
+        const value2 = countriesData[i].TotalConfirmed;
+        const value3 = countriesData[i].TotalDeaths;
+        res[index]={name:"Korea",value:[value0,value1,value3],other:[value2]};
+        index ++;
+      }
+      else
+      {
+        const value0 = nameList[countryName][0];
+        const value1 = nameList[countryName][1];
+        const value2 = countriesData[i].TotalConfirmed;
+        const value3 = countriesData[i].TotalDeaths;
+        res[index]={name:countryName,value:[value0,value1,value3],other:[value2]};
         index ++;
       }
     }

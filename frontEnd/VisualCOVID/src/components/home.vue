@@ -1,9 +1,41 @@
 <template>
   <el-container style="height: 100%">
     <el-main>
-      <div class='wrapper'>
-        <div class='chart' id='chart'></div>
-      </div>
+      <el-card class="box-card">
+        <div class='wrapper'>
+          <div class='chart' id='chart'>
+          </div>
+        </div>
+        <div class="tool-bar" id="map_toolbar">
+          <el-descriptions title="Current Data Info">
+            <el-descriptions-item label="Date ">{{DateCurr}}</el-descriptions-item>
+            <el-descriptions-item label="Total Confirmed ">
+              <span style="color:green;font-weight:bolder">
+                {{summaryData.TotalConfirmed}}</span>
+            </el-descriptions-item>
+            <el-descriptions-item label="Total Deaths ">
+              <span style="color:red;font-weight:bolder">
+                {{summaryData.TotalDeaths}}</span>
+            </el-descriptions-item>
+            <el-descriptions-item label="New Confirmed ">
+              <span style="color:green;font-weight:bolder">
+                {{summaryData.NewConfirmed}}</span>
+            </el-descriptions-item>
+            <el-descriptions-item label="New Deaths ">
+              <span style="color:red;font-weight:bolder">
+              {{summaryData.NewDeaths}}</span>
+            </el-descriptions-item>
+          </el-descriptions>
+          <el-form :inline="false" :model="formInline" class="demo-form-inline">
+            <el-form-item label="Select Data Type:" style="font-weight: bold">
+              <el-select v-model="value" placeholder="data type" @change="onSubmit">
+                <el-option label="Total Death" value="total_2d_death"></el-option>
+                <el-option label="Total Confirm" value="total_2d"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+        </div>
+      </el-card>
       <div class='chart' id='barChart'></div>
     </el-main>
   </el-container>
@@ -18,6 +50,7 @@ export default {
   name: "Home",
   data() {
     return {
+      DateCurr:'',
       profile: {
         name: null,
         id: null,
@@ -29,18 +62,20 @@ export default {
         content: null,
       },
       notified: false,
-      worldCOVIDData:{
-
+      formInline: {
+        user: '',
+        region: ''
       },
-      type : "total_2d",
+      summaryData:[],
       toolBarText :"Total Confirmed: ",
-      toolBarText2:"Total Deaths: "
+      toolBarText2:"Total Deaths: ",
+      value: 'total_2d'
     };
   },
   methods: {
-    resizeMainContainer (container){
-      container.style.width = window.innerWidth*0.75 + 'px';
-      container.style.height = window.innerHeight + 'px';
+    onSubmit()
+    {
+      this.runWorldMap()
     },
     runWorldMap()
     {
@@ -51,7 +86,9 @@ export default {
         dataType:'json',
         success :function (res)
         {
-          let data = processPostmanAPIEarthData(res,that.type)
+          let data = processPostmanAPIEarthData(res,that.value)
+          that.summaryData = res.Global
+          that.DateCurr = that.summaryData.Date.split('T')[0]
           that.drawChart(that,data)
         }
       })
@@ -62,17 +99,17 @@ export default {
         chart.resize()
       })
       // draw the chart
-      chart.setOption({
+      let option = {
         // main title
         title: {
-           text: 'Coronavirus (COVID-19) World Map Visualization',
-           top: 10,
-           left: 'center',
-           textStyle: {
-             fontSize: 24,
-               fontWeight: 600,
-             color: '#000'
-         }
+          text: 'Coronavirus (COVID-19) World Map Visualization',
+          top: 10,
+          left: 'center',
+          textStyle: {
+            fontSize: 24,
+            fontWeight: 600,
+            color: '#000'
+          }
         },
         grid: {
           width:'100%',
@@ -86,11 +123,10 @@ export default {
         tooltip: {
           trigger: 'item', // 触发类型, 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用
           // 提示框浮层内容格式器，支持字符串模板和回调函数两种形式
-          // 使用函数模板  传入的数据值 -> value: number | Array
           formatter: function (val) {
             if(val.data == null) return ;
-            return '<span style="font-weight:bold">'+val.data.name +'</span><br/>'+
-              context.toolBarText + '<span style="color:Green;font-weight:bolder">'+val.data.value[2]+'</span>'+
+            return '<span style="font-weight:bold">'+val.data.name +'</span>'+'<br/>'+
+              context.toolBarText + '<span style="color:green;font-weight:bolder">'+val.data.value[2]+'</span>'+
               '<br/>'+context.toolBarText2+'<span style="color:red;font-weight:bolder">'+val.data.other[0]+'</span>'
           }
         },
@@ -138,11 +174,22 @@ export default {
             data: data
           }
         ]
-      })
+      }
+      if(context.value==="total_2d_death")
+      {
+        option.visualMap.max = 100000
+        option.visualMap.color = ['#FF6347','#ffad98']
+        option.tooltip.formatter= function(val) {
+        if(val.data == null) return ;
+        return '<span style="font-weight:bold">'+val.data.name +'</span>'+'<br/>'
+          +context.toolBarText+'<span style="color:Green;font-weight:bolder">'+val.data.other[0]+'</span><br/>'+
+          context.toolBarText2 + '<span style="color:red;font-weight:bolder">'+val.data.value[2]+'</span>'
+      }
+      }
+      chart.setOption(option)
     },
     /*getMap() {
       const dom = document.getElementById('main');
-      //用于使chart自适应高度和宽度,通过窗体高宽计算容器高宽
       // 初始化图表
       //$(window).on('resize',function(){//
         //屏幕大小自适应，重置容器高宽
@@ -295,11 +342,10 @@ export default {
     },*/
     getBarChart(context)
     {
-      const mainContainer = document.getElementById('main2');
-      //用于使chart自适应高度和宽度,通过窗体高宽计算容器高宽
-      // 初始化图表
-      this.resizeMainContainer(mainContainer);
-      const mainChart = echarts.init(mainContainer);
+      let mainChart = echarts.init(document.getElementById('main2'))
+      window.addEventListener('resize', function () {
+        mainChart.resize()
+      })
       // 基于准备好的dom，初始化echarts实例
       mainChart.setOption({
         title: {
@@ -348,12 +394,7 @@ export default {
   width: 80%;
   margin:0 auto;
   height: 600px;
-  border: 1px solid #eeeeee;
   /* background: url(../../public/static/bg.png) no-repeat; 背景图设置*/
   background-size: 100% 100%;
-}
-
-.main2{
-  margin:0 auto;
 }
 </style>

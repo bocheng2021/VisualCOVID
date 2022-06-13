@@ -61,6 +61,33 @@ export function processPostmanAPIEarthData(data,type)
         res[index]={name:"Dem. Rep. Congo",value:[value0,value1,value2],other:[value3]};
         index ++;
       }
+      else if(countryName==="Viet Nam")
+      {
+        const value0 = nameList[countryName][0];
+        const value1 = nameList[countryName][1];
+        const value2 = countriesData[i].TotalConfirmed;
+        const value3 = countriesData[i].TotalDeaths;
+        res[index]={name:"Vietnam",value:[value0,value1,value2],other:[value3]};
+        index ++;
+      }
+      else if(countryName==="Korea (North)")
+      {
+        const value0 = nameList[countryName][0];
+        const value1 = nameList[countryName][1];
+        const value2 = countriesData[i].TotalConfirmed;
+        const value3 = countriesData[i].TotalDeaths;
+        res[index]={name:"Dem. Rep. Korea",value:[value0,value1,value2],other:[value3]};
+        index ++;
+      }
+      else if(countryName==="Korea (South)")
+      {
+        const value0 = nameList[countryName][0];
+        const value1 = nameList[countryName][1];
+        const value2 = countriesData[i].TotalConfirmed;
+        const value3 = countriesData[i].TotalDeaths;
+        res[index]={name:"Korea",value:[value0,value1,value2],other:[value3]};
+        index ++;
+      }
       else
       {
         const value0 = nameList[countryName][0];

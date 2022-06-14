@@ -6,8 +6,8 @@ module.exports = [
     name: '3DEarth',
     componentName: '3DEarth'
   }, {
-    name: 'Data reliability analysis',
-    componentName: 'data_reliability'
+    name: 'Data analysis',
+    componentName: 'data_analysis'
   },
     {
       name: 'Subscribe',

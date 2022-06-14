@@ -26,14 +26,10 @@
               {{summaryData.NewDeaths}}</span>
             </el-descriptions-item>
           </el-descriptions>
-          <el-form :inline="false" :model="formInline" class="demo-form-inline">
-            <el-form-item label="Select Data Type:" style="font-weight: bold">
-              <el-select v-model="value" placeholder="data type" @change="onSubmit">
-                <el-option label="Total Death" value="total_2d_death"></el-option>
-                <el-option label="Total Confirm" value="total_2d"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-form>
+          <el-select v-model="value" placeholder="data type" @change="onSubmit">
+            <el-option label="Total Death" value="total_2d_death"></el-option>
+            <el-option label="Total Confirm" value="total_2d"></el-option>
+          </el-select>
         </div>
       </el-card>
       <div class='chart' id='barChart'></div>
@@ -51,22 +47,12 @@ export default {
   data() {
     return {
       DateCurr:'',
-      profile: {
-        name: null,
-        id: null,
-        department: null,
-        status: null,
+      summaryData: {
+        TotalConfirmed:[],
+        TotalDeaths:[],
+        NewConfirmed:[],
+        NewDeaths:[]
       },
-      reminder: {
-        title: null,
-        content: null,
-      },
-      notified: false,
-      formInline: {
-        user: '',
-        region: ''
-      },
-      summaryData:[],
       toolBarText :"Total Confirmed: ",
       toolBarText2:"Total Deaths: ",
       value: 'total_2d'

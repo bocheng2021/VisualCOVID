@@ -27,14 +27,10 @@
               {{summaryData.NewDeaths}}</span>
           </el-descriptions-item>
         </el-descriptions>
-        <el-form :inline="false" :model="formInline" class="demo-form-inline">
-          <el-form-item label="Select Data Type:" style="font-weight: bold">
-            <el-select v-model="type" placeholder="data type" @change="onSubmit">
-              <el-option label="Total Death" value="total_3d_2"></el-option>
-              <el-option label="Total Confirm" value="total_3d_1"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
+        <el-select v-model="type" placeholder="data type" @change="onSubmit">
+          <el-option label="Total Death" value="total_3d_2"></el-option>
+          <el-option label="Total Confirm" value="total_3d_1"></el-option>
+        </el-select>
       </div>
     </el-main>
   </el-container>
@@ -58,12 +54,13 @@ export default {
       type: "total_3d_1",
       toolBarText :"Total Confirmed: ",
       toolBarText2:"Total Deaths: ",
-      formInline: {
-        user: '',
-        region: ''
-      },
       DateCurr:'',
-      summaryData:[],
+      summaryData: {
+        TotalConfirmed:[],
+        TotalDeaths:[],
+        NewConfirmed:[],
+        NewDeaths:[]
+      },
     }
   },
   methods: {

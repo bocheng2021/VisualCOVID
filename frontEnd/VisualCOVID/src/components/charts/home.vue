@@ -32,18 +32,23 @@
           </el-select>
         </div>
       </el-card>
+      <barChart></barChart>
       <div class='chart' id='barChart'></div>
     </el-main>
   </el-container>
 </template>
 
 <script>
+import barChart from './barChart'
 import * as echarts from 'echarts';
 import $ from 'jquery'
-import {processPostmanAPIEarthData} from "../utils/create-earth";
+import {processPostmanAPIEarthData} from "../../utils/create-earth";
 
 export default {
   name: "Home",
+  components: {
+    'barChart': barChart,
+  },
   data() {
     return {
       DateCurr:'',
@@ -80,10 +85,12 @@ export default {
       })
     },
     drawChart (context,data) {
-      let chart = echarts.init(document.getElementById('chart'))
+      let chart = echarts.init(document.getElementById('chart'),'vintage',
+        {locale:'EN'})
       window.addEventListener('resize', function () {
         chart.resize()
       })
+      chart.hideLoading();
       // draw the chart
       let option = {
         // main title
@@ -105,10 +112,9 @@ export default {
           bottom: '0%',
           containLabel: true
         },
-        // 提示框组件
         tooltip: {
-          trigger: 'item', // 触发类型, 数据项图形触发，主要在散点图，饼图等无类目轴的图表中使用
-          // 提示框浮层内容格式器，支持字符串模板和回调函数两种形式
+          trigger: 'item', // Trigger type, data item graph trigger,
+          // mainly used in scatter charts, pie charts and other charts without category axes
           formatter: function (val) {
             if(val.data == null) return ;
             return '<span style="font-weight:bold">'+val.data.name +'</span>'+'<br/>'+
@@ -116,7 +122,7 @@ export default {
               '<br/>'+context.toolBarText2+'<span style="color:red;font-weight:bolder">'+val.data.other[0]+'</span>'
           }
         },
-        // 视觉映射组件
+        // Visual mapping component
         visualMap: {
           min: 0,
           max: 8000000,
@@ -127,36 +133,34 @@ export default {
         },
         series: [
           {
-            type: 'map', // 类型
-            // 系列名称，用于tooltip的显示，legend 的图例筛选 在 setOption 更新数据和配置项时用于指定对应的系列
+            type: 'map', // type
+            // Series name, used for tooltip display, legend filtering for
+            // legends Used to specify the corresponding series when settingOption updates data and configuration items
             name: 'World Map',
-            mapType: 'world', // 地图类型
+            mapType: 'world', // map type
             roam: true,
-            // 图形上的文本标签
+            // Text labels on graphs
             label: {
-              show: false // 是否显示对应地名
+              show: false // Whether to display the corresponding place name
             },
             zoom: 1.2,
-            // 地图区域的多边形 图形样式
             itemStyle: {
-              // areaColor: '#7B68EE', // 地图区域的颜色 如果设置了visualMap，areaColor属性将不起作用
-              borderWidth: 0.5, // 描边线宽 为 0 时无描边
-              borderColor: '#000', // 图形的描边颜色 支持的颜色格式同 color，不支持回调函数
-              borderType: 'solid' // 描边类型，默认为实线，支持 'solid', 'dashed', 'dotted'
+              borderWidth: 0.5,
+              borderColor: '#000',
+              borderType: 'solid'
             },
-            // 高亮状态下的多边形和标签样式
             emphasis: {
               label: {
-                show: true, // 是否显示标签
-                color: '#fff' // 文字的颜色 如果设置为 'auto'，则为视觉映射得到的颜色，如系列色
+                show: true,
+                color: '#fff'
               },
               itemStyle: {
-                areaColor: '#FF6347' // 地图区域的颜色
+                areaColor: '#FF6347' //map area color
               }
             },
-            // 自定义地区的名称映射
+            // name mapping
             nameMap: name,
-            // 地图系列中的数据内容数组 数组项可以为单个数值
+            // Array of data contents in the map series Array items can be single values
             data: data
           }
         ]
@@ -326,31 +330,6 @@ export default {
         myChart.setOption(option);
       }
     },*/
-    getBarChart(context)
-    {
-      let mainChart = echarts.init(document.getElementById('main2'))
-      window.addEventListener('resize', function () {
-        mainChart.resize()
-      })
-      // 基于准备好的dom，初始化echarts实例
-      mainChart.setOption({
-        title: {
-          text: 'Bar chart'
-        },
-        tooltip: {},
-        xAxis: {
-          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-        },
-        yAxis: {},
-        series: [
-          {
-            name: '销量',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-          }
-        ]
-      });
-    }
   },
   mounted() {
     this.runWorldMap()
@@ -383,4 +362,5 @@ export default {
   /* background: url(../../public/static/bg.png) no-repeat; 背景图设置*/
   background-size: 100% 100%;
 }
+
 </style>

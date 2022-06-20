@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '../components/HelloWorld'
 import dashboard from "../components/dashboard";
-import home from "../components/home";
-import Earth from "../components/threeDEarth";
+import home from "../components/charts/home";
+import Earth from "../components/charts/threeDEarth";
 
 Vue.use(Router)
 

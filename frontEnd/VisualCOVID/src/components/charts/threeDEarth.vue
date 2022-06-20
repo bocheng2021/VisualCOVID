@@ -41,10 +41,10 @@ import * as echarts from 'echarts';
 import 'echarts/map/js/world.js'
 import 'echarts-gl'
 import $ from "jquery";
-import bg4 from "../assets/image/bg4.jpg";
-import worldImg from "../assets/image/bg4.jpg";
-import starfieldImg from "../assets/image/starfield.jpg";
-import {processPostmanAPIEarthData, processTencentAPIEarthData} from "../utils/create-earth";
+import bg4 from "../../assets/image/bg4.jpg";
+import worldImg from "../../assets/image/bg4.jpg";
+import starfieldImg from "../../assets/image/starfield.jpg";
+import {processPostmanAPIEarthData, processTencentAPIEarthData} from "../../utils/create-earth";
 
 export default {
   name:"threeDEarth",
@@ -103,10 +103,12 @@ export default {
     },
     getThreeDEarth(context, data)
     {
-      const mainChart = echarts.init(document.getElementById('earth'));
+      const mainChart = echarts.init(document.getElementById('earth'),'vintage',
+        {locale:'EN'});
       window.addEventListener('resize', function () {
         mainChart.resize()
       })
+      mainChart.hideLoading();
       //initial the earth.
       let option =  {
         title: {

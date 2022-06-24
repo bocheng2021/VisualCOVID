@@ -5,7 +5,6 @@
     </el-col>
   </el-row>
 </template>
-
 <style scoped>
 .head-wrap{
   overflow-y: auto;

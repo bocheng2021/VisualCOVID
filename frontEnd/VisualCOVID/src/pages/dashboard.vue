@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import menuBar from './menuBar'
-import Header from './header'
+import menuBar from '../components/menuBar'
+import Header from '../components/header'
 
 export default {
   name: 'dashboard',

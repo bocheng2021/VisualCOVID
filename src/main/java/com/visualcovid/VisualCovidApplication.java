@@ -1,4 +1,4 @@
-package com.example.visualcovid;
+package com.visualcovid;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

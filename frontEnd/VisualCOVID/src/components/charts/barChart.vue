@@ -1,6 +1,32 @@
 <template>
   <el-card class="box-card">
+    <h3 style="text-align: center;font-weight: bolder">Latest total confirmed and total deaths of COVID by country</h3>
     <div class='bar-chart' id='bar-chart'></div>
+    <div class="tool-bar" id="bar_toolbar">
+      <el-descriptions title="Data Info">
+        <el-descriptions-item label="Date ">{{DateCurr}}</el-descriptions-item>
+        <el-descriptions-item label="Total Confirmed ">
+              <span style="color:green;font-weight:bolder">
+                {{summaryData.TotalConfirmed}}</span>
+        </el-descriptions-item>
+        <el-descriptions-item label="Total Deaths ">
+              <span style="color:red;font-weight:bolder">
+                {{summaryData.TotalDeaths}}</span>
+        </el-descriptions-item>
+        <el-descriptions-item label="New Confirmed ">
+              <span style="color:green;font-weight:bolder">
+                {{summaryData.NewConfirmed}}</span>
+        </el-descriptions-item>
+        <el-descriptions-item label="New Deaths ">
+              <span style="color:red;font-weight:bolder">
+              {{summaryData.NewDeaths}}</span>
+        </el-descriptions-item>
+        <el-descriptions-item label="Data Source ">
+              <span style="color:black;font-weight:bolder">
+              {{DateSource}}</span>
+        </el-descriptions-item>
+      </el-descriptions>
+    </div>
   </el-card>
 </template>
 
@@ -13,7 +39,14 @@ export default {
   name: "barChart",
   data() {
     return {
-      summaryData:[],
+      summaryData: {
+        TotalConfirmed:[],
+        TotalDeaths:[],
+        NewConfirmed:[],
+        NewDeaths:[]
+      },
+      DateCurr:[],
+      DateSource:'Postman'
     };
   },
   methods:{
@@ -27,6 +60,8 @@ export default {
         success :function (res)
         {
           let data = processPostmanAPIBarData(res)
+          that.summaryData = res.Global
+          that.DateCurr = that.summaryData.Date.split('T')[0]
           that.drawSummaryData(data)
         }
       })
@@ -60,10 +95,6 @@ export default {
               show: true,
               readOnly: false,
             },
-            magicType: {
-              show: true,
-              type: ['line', 'bar'],
-            },
             restore: {
               show: true,
             },
@@ -75,7 +106,7 @@ export default {
         calculable: true,
         legend: {
           data: ['Data Type', 'Total Confirms', 'Total Deaths'],
-          itemGap: 5
+          itemGap: 5,
         },
         grid: {
           top: '12%',

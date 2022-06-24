@@ -1,4 +1,4 @@
-package com.example.visualcovid;
+package com.visualcovid;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

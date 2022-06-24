@@ -27,6 +27,7 @@
               {{summaryData.NewDeaths}}</span>
           </el-descriptions-item>
         </el-descriptions>
+        <span style="color:black;font-weight:bolder">Current Data Type:</span>
         <el-select v-model="type" placeholder="data type" @change="onSubmit">
           <el-option label="Total Death" value="total_3d_2"></el-option>
           <el-option label="Total Confirm" value="total_3d_1"></el-option>

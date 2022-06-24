@@ -4,5 +4,9 @@
     "echarts-gl": "^2.0.9",
     "element-ui": "^2.15.8",
     "jquery": "^3.6.0"
+  },
+  "devDependencies": {
+    "node-sass": "^7.0.1",
+    "sass-loader": "^13.0.0"
   }
 }

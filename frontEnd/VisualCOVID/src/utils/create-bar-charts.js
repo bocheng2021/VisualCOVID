@@ -1,3 +1,23 @@
+export function test()
+{
+  const axios = require("axios");
+
+  const options = {
+    method: 'GET',
+    url: 'https://covid-193.p.rapidapi.com/history',
+    params: {country: 'usa'},
+    headers: {
+      'X-RapidAPI-Key': '347ab949b4msh10b962fa5b22f96p1e6bd5jsn2d1bdf27d549',
+      'X-RapidAPI-Host': 'covid-193.p.rapidapi.com'
+    }
+  };
+
+  axios.request(options).then(function (response) {
+    console.log(response.data);
+  }).catch(function (error) {
+    console.error(error);
+  });
+}
 export function processPostmanAPIBarData(data)
 {
   let countriesData = data.Countries

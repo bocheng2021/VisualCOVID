@@ -1,22 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '../components/HelloWorld'
-import dashboard from "../components/dashboard";
-import home from "../components/charts/home";
+import dashboard from "../pages/dashboard";
+import home from "../pages/home";
 import Earth from "../components/charts/threeDEarth";
+import historyData from "../pages/history_data/index"
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/test',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
       path: '/',
       component: dashboard,
+      redirect: '/home',
       children: [
         {
           path: 'home',
@@ -27,7 +23,12 @@ export default new Router({
           path: '3DEarth',
           component: Earth,
           name: '3DEarth',
-        }
+        },
+        {
+          path: 'historyData',
+          component: historyData,
+          name: 'historyData',
+        },
       ]
     }
   ]

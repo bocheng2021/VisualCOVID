@@ -1,54 +1,45 @@
 <template>
-  <el-container style="height: 100%">
-    <el-main>
-      <el-card class="box-card">
-        <div class='wrapper'>
-          <div class='chart' id='chart'>
-          </div>
-        </div>
-        <div class="tool-bar" id="map_toolbar">
-          <el-descriptions title="Current Data Info">
-            <el-descriptions-item label="Date ">{{DateCurr}}</el-descriptions-item>
-            <el-descriptions-item label="Total Confirmed ">
+  <el-card class="box-card">
+    <div class='wrapper'>
+      <div class='chart' id='chart'>
+      </div>
+    </div>
+    <div class="tool-bar" id="map_toolbar">
+      <el-descriptions title="Current Data Info">
+        <el-descriptions-item label="Date ">{{DateCurr}}</el-descriptions-item>
+        <el-descriptions-item label="Total Confirmed ">
               <span style="color:green;font-weight:bolder">
                 {{summaryData.TotalConfirmed}}</span>
-            </el-descriptions-item>
-            <el-descriptions-item label="Total Deaths ">
+        </el-descriptions-item>
+        <el-descriptions-item label="Total Deaths ">
               <span style="color:red;font-weight:bolder">
                 {{summaryData.TotalDeaths}}</span>
-            </el-descriptions-item>
-            <el-descriptions-item label="New Confirmed ">
+        </el-descriptions-item>
+        <el-descriptions-item label="New Confirmed ">
               <span style="color:green;font-weight:bolder">
                 {{summaryData.NewConfirmed}}</span>
-            </el-descriptions-item>
-            <el-descriptions-item label="New Deaths ">
+        </el-descriptions-item>
+        <el-descriptions-item label="New Deaths ">
               <span style="color:red;font-weight:bolder">
               {{summaryData.NewDeaths}}</span>
-            </el-descriptions-item>
-          </el-descriptions>
-          <el-select v-model="value" placeholder="data type" @change="onSubmit">
-            <el-option label="Total Death" value="total_2d_death"></el-option>
-            <el-option label="Total Confirm" value="total_2d"></el-option>
-          </el-select>
-        </div>
-      </el-card>
-      <barChart></barChart>
-      <div class='chart' id='barChart'></div>
-    </el-main>
-  </el-container>
+        </el-descriptions-item>
+      </el-descriptions>
+      <span style="color:black;font-weight:bolder">Current Data Type:</span>
+      <el-select v-model="value" placeholder="data type" @change="onSubmit">
+        <el-option label="Total Death" value="total_2d_death"></el-option>
+        <el-option label="Total Confirm" value="total_2d"></el-option>
+      </el-select>
+    </div>
+  </el-card>
 </template>
 
 <script>
-import barChart from './barChart'
-import * as echarts from 'echarts';
-import $ from 'jquery'
+import $ from "jquery";
 import {processPostmanAPIEarthData} from "../../utils/create-earth";
+import * as echarts from "echarts";
 
 export default {
-  name: "Home",
-  components: {
-    'barChart': barChart,
-  },
+  name: "world_map",
   data() {
     return {
       DateCurr:'',
@@ -113,6 +104,7 @@ export default {
           containLabel: true
         },
         tooltip: {
+
           trigger: 'item', // Trigger type, data item graph trigger,
           // mainly used in scatter charts, pie charts and other charts without category axes
           formatter: function (val) {
@@ -137,7 +129,7 @@ export default {
             // Series name, used for tooltip display, legend filtering for
             // legends Used to specify the corresponding series when settingOption updates data and configuration items
             name: 'World Map',
-            mapType: 'world', // map type
+            map: 'world', // map type
             roam: true,
             // Text labels on graphs
             label: {
@@ -170,11 +162,11 @@ export default {
         option.visualMap.max = 100000
         option.visualMap.color = ['#FF6347','#ffad98']
         option.tooltip.formatter= function(val) {
-        if(val.data == null) return ;
-        return '<span style="font-weight:bold">'+val.data.name +'</span>'+'<br/>'
-          +context.toolBarText+'<span style="color:Green;font-weight:bolder">'+val.data.other[0]+'</span><br/>'+
-          context.toolBarText2 + '<span style="color:red;font-weight:bolder">'+val.data.value[2]+'</span>'
-      }
+          if(val.data == null) return ;
+          return '<span style="font-weight:bold">'+val.data.name +'</span>'+'<br/>'
+            +context.toolBarText+'<span style="color:Green;font-weight:bolder">'+val.data.other[0]+'</span><br/>'+
+            context.toolBarText2 + '<span style="color:red;font-weight:bolder">'+val.data.value[2]+'</span>'
+        }
       }
       chart.setOption(option)
     },
@@ -348,7 +340,7 @@ export default {
       }
     }
   },
-};
+}
 </script>
 
 <style scoped>
@@ -362,5 +354,4 @@ export default {
   /* background: url(../../public/static/bg.png) no-repeat; 背景图设置*/
   background-size: 100% 100%;
 }
-
 </style>

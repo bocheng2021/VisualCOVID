@@ -139,6 +139,7 @@ export default {
         },
         series: [
           {
+            id: 'People Number',
             type: 'map', // type
             // Series name, used for tooltip display, legend filtering for
             // legends Used to specify the corresponding series when settingOption updates data and configuration items
@@ -150,6 +151,8 @@ export default {
               show: false // Whether to display the corresponding place name
             },
             zoom: 1.2,
+            animationDurationUpdate: 1000,
+            universalTransition: true,
             itemStyle: {
               borderWidth: 0.5,
               borderColor: '#000',

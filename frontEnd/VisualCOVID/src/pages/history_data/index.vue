@@ -2,16 +2,22 @@
   <el-container style="height: 100%">
     <el-main>
       <timeLineChart></timeLineChart>
+      <compareTimeLine></compareTimeLine>
+      <heatmap></heatmap>
     </el-main>
   </el-container>
 </template>
 
 <script>
 import timeLineChart from '../../components/charts/timeLineChart'
+import compareTimeLine from "../../components/charts/compareTimeLine";
+import heatmap from "../../components/charts/heatmap";
 export default {
   name: "index",
   components:{
-    'timeLineChart':timeLineChart
+    'timeLineChart':timeLineChart,
+    'compareTimeLine':compareTimeLine,
+    'heatmap':heatmap
   }
 }
 </script>

@@ -10,7 +10,7 @@ module.exports = [
     componentName: 'historyData'
   },
     {
-      name: 'Subscribe',
-      componentName: 'subscriber'
+      name: 'Vaccine Data',
+      componentName: 'VaccineData'
     }]
 }]

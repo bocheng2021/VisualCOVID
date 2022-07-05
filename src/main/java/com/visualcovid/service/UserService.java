@@ -1,4 +1,8 @@
 package com.visualcovid.service;
+import com.visualcovid.entity.VaccineData;
+import de.siegmar.fastcsv.reader.CsvContainer;
+import de.siegmar.fastcsv.reader.CsvReader;
+import de.siegmar.fastcsv.reader.CsvRow;
 import org.springframework.core.io.Resource;
 import com.alibaba.fastjson.JSONObject;
 import com.visualcovid.entity.CountryData;
@@ -9,9 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.*;
 import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +32,24 @@ public class UserService {
     public CountryData getCountrySlug(String name)
     {
         return mapper.getCountrySlugByName(name);
+    }
+
+    @Transactional
+    public VaccineData[] getSumVaccineData()
+    {
+        return mapper.getSumVaccineData();
+    }
+
+    @Transactional
+    public VaccineData getWorldSumVaccineData()
+    {
+        return mapper.getWorldSumVaccineData();
+    }
+
+    @Transactional
+    public VaccineData[] getTimeSeriesVaccineDataByCountry(String countryName)
+    {
+        return mapper.getTimeSeriesVaccineDataByCountry(countryName);
     }
 
     @Value("classpath:countries.json")
@@ -41,5 +66,78 @@ public class UserService {
         }
         return countryList;
 
+    }
+    @Transactional
+    public void insertTimeLineVaccineData()
+    {
+        File file = new File("D:\\Coding\\java_projects\\VisualCOVID\\src\\main\\" +
+                "resources\\time_series_covid19_vaccine_global.csv");
+        CsvReader csvReader = new CsvReader();
+        csvReader.setContainsHeader(true);
+
+        CsvContainer csv = null;
+        try {
+            csv = csvReader.read(file, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String pre = "";
+        for (CsvRow row : csv.getRows()) {
+            if (pre.equals(""))
+            {
+                pre=row.getField("Country_Region");
+            }
+            else if (!pre.equals(row.getField("Country_Region")))
+            {
+                String Country_Region = row.getField("Country_Region");
+                String Date = row.getField("Date");
+                String Doses_admin = row.getField("Doses_admin").equals("")? "0":row.getField("Doses_admin");
+                String People_partially_vaccinated = row.getField("People_partially_vaccinated").equals("")? "0":
+                        row.getField("People_partially_vaccinated");
+                String People_fully_vaccinated = row.getField("People_fully_vaccinated").equals("")? "0":
+                        row.getField("People_fully_vaccinated");
+                String report_date = row.getField("People_fully_vaccinated").equals("")? "0":
+                        row.getField("People_fully_vaccinated");
+                mapper.insertTimeLineVaccineData(Country_Region, java.sql.Date.valueOf(Date),Doses_admin,
+                        People_partially_vaccinated,People_fully_vaccinated,report_date);
+                pre = Country_Region;
+            }
+        }
+    }
+
+    @Transactional
+    public void insertVaccineData ()
+    {
+        File file = new File("D:\\Coding\\java_projects\\VisualCOVID\\src\\main\\" +
+                "resources\\vaccine_data_global.csv");
+        CsvReader csvReader = new CsvReader();
+        csvReader.setContainsHeader(true);
+
+        CsvContainer csv = null;
+        try {
+            csv = csvReader.read(file, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String pre = "";
+        for (CsvRow row : csv.getRows()) {
+            if (pre.equals(""))
+            {
+                pre=row.getField("Country_Region");
+            }
+            else if (!pre.equals(row.getField("Country_Region")))
+            {
+                String Country_Region = row.getField("Country_Region");
+                String Date = row.getField("Date");
+                String Doses_admin = row.getField("Doses_admin").equals("")? "0":row.getField("Doses_admin");
+                String People_partially_vaccinated = row.getField("People_partially_vaccinated").equals("")? "0":
+                        row.getField("People_partially_vaccinated");
+                String People_fully_vaccinated = row.getField("People_fully_vaccinated").equals("")? "0":
+                        row.getField("People_fully_vaccinated");
+                mapper.insertVaccineData(Country_Region, java.sql.Date.valueOf(Date),Doses_admin,
+                        People_partially_vaccinated,People_fully_vaccinated);
+                pre = Country_Region;
+            }
+        }
     }
 }

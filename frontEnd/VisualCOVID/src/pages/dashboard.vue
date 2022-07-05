@@ -1,18 +1,16 @@
 <template>
-  <div id="dashboard">
+  <el-container>
+    <el-header class="header">
+      <Header/></el-header>
     <el-container>
-      <el-header class="header">
-        <Header/></el-header>
-      <el-container>
-        <el-aside width="200px">
-          <menuBar></menuBar>
-        </el-aside>
-        <el-main>
-          <router-view></router-view>
-        </el-main>
-      </el-container>
+      <el-aside width="200px">
+        <menuBar></menuBar>
+      </el-aside>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
-  </div>
+  </el-container>
 </template>
 
 <script>
@@ -42,12 +40,5 @@ export default {
 .el-aside{
   height: auto;
   background-color: #545c64;
-
 }
-.el-container{
-  min-height:800px;
-  height: 100%;
-  overflow-y: auto;
-}
-
 </style>

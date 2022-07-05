@@ -7,28 +7,15 @@
 <script>
 export default {
   name: 'App',
-  provide(){
-    return{
-      reload:this.reload
-    }
-  },
-  data(){
-    return{
-      isShow:true
-    }
-  },
-  methods:{
-    reload(){
-      this.isShow=false;
-      this.$nextTick(()=>{
-        this.isShow=true
-      })
-    }
-  }
 }
 </script>
 
 <style>
-#app {
+html{
+  height: 100%;
+}
+body {
+  margin: 0;
+  height: 100%;
 }
 </style>

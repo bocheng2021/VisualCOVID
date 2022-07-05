@@ -1,6 +1,7 @@
 package com.visualcovid.controller;
 
 import com.visualcovid.entity.CountryData;
+import com.visualcovid.entity.VaccineData;
 import com.visualcovid.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +21,7 @@ public class UserController {
     public CountryData getCountrySlug(String name){
         return service.getCountrySlug(name);
     }
+
     @GetMapping("/getCountrySlug")
     public CountryData getCountrySlugByName(String name){
         List<CountryData> list = service.getCountryData();
@@ -38,4 +40,31 @@ public class UserController {
         return service.getCountryData();
     }
 
+    @GetMapping("/insertVaccineData")
+    public void insertVaccineData(){
+        service.insertVaccineData();
+    }
+
+    @GetMapping("/insertTimelineVaccineData")
+    public void insertTimelineVaccineData(){
+        service.insertTimeLineVaccineData();
+    }
+
+    @GetMapping("/getSumVaccineData")
+    public VaccineData[] getSumVaccineData()
+    {
+        return service.getSumVaccineData();
+    }
+
+    @GetMapping("/getWorldSumVaccineData")
+    public VaccineData getWorldSumVaccineData()
+    {
+        return service.getWorldSumVaccineData();
+    }
+
+    @GetMapping("/getTimeSeriesVaccineByCountry")
+    public VaccineData[] getTimeSeriesVaccineByCountry(String countryName)
+    {
+        return service.getTimeSeriesVaccineDataByCountry(countryName);
+    }
 }

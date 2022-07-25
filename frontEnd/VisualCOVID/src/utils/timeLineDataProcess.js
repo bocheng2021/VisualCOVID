@@ -16,6 +16,17 @@ export async function countryProcess() {
   return option
 }
 
+export async function getAllCountriesData() {
+  let countries = await axios.get('http://localhost:8081/getCountry')
+  let i =0;
+  let data = []
+  for (i in countries.data)
+  {
+    data.push({name:countries.data[i].country,slug:countries.data[i].slug})
+  }
+  return data
+}
+
 export function messageBox1(that) {
   const h = that.$createElement;
   that.$notify({

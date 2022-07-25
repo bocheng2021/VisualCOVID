@@ -5,6 +5,7 @@ import home from "../pages/home";
 import Earth from "../components/charts/threeDEarth";
 import historyData from "../pages/history_data/index"
 import VaccineData from "../pages/vaccineData/index"
+import data_reliability from "../pages/reliability/index"
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
           path:'VaccineData',
           component: VaccineData,
           name: 'VaccineData',
+        },
+        {
+          path:'data_reliability',
+          component: data_reliability,
+          name: 'data_reliability',
         }
       ]
     }

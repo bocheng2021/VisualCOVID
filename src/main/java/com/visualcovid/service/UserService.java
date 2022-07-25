@@ -18,9 +18,9 @@ import java.io.IOException;
 import java.lang.*;
 import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class UserService {
@@ -87,7 +87,9 @@ public class UserService {
             {
                 pre=row.getField("Country_Region");
             }
-            else if (!pre.equals(row.getField("Country_Region")))
+            else if (!pre.equals(row.getField("Country_Region")) &&
+                    (Objects.equals(row.getField("Province_State"), "")||
+                            row.getField("Province_State").equals(row.getField("Country_Region"))))
             {
                 String Country_Region = row.getField("Country_Region");
                 String Date = row.getField("Date");
@@ -139,5 +141,10 @@ public class UserService {
                 pre = Country_Region;
             }
         }
+    }
+
+    public void insert_reliability(String name, String slug, double freq_1, double freq_2, double freq_3, double freq_4
+            , double freq_5, double freq_6, double freq_7, double freq_8, double freq_9) {
+        mapper.insert_reliability(name,slug,freq_1,freq_2,freq_3,freq_4,freq_5,freq_6,freq_7,freq_8,freq_9);
     }
 }

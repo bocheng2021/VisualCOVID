@@ -2,17 +2,20 @@
   <el-container style="height: 100%">
     <el-main>
       <vaccineMap></vaccineMap>
+      <dynamicLine></dynamicLine>
     </el-main>
   </el-container>
 </template>
 
 <script>
 import vaccineMap from "../../components/charts/vaccine/vaccineMap";
+import dynamicLine from "../../components/charts/vaccine/dynamicLine";
 
 export default {
   name: "index",
   components:{
-    'vaccineMap':vaccineMap
+    'vaccineMap':vaccineMap,
+    'dynamicLine':dynamicLine
   }
 }
 </script>

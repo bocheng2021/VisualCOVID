@@ -67,4 +67,15 @@ public class UserController {
     {
         return service.getTimeSeriesVaccineDataByCountry(countryName);
     }
+
+    /*
+    most data inserted on 2022/7/25
+    *
+    */
+    @GetMapping("/insert_reliabilityData")
+    public void insert_reliability(String name, String slug, double freq_1,double freq_2,double freq_3,double freq_4,
+                                   double freq_5,double freq_6,double freq_7,double freq_8,double freq_9)
+    {
+        service.insert_reliability(name,slug,freq_1,freq_2,freq_3,freq_4,freq_5,freq_6,freq_7,freq_8,freq_9);
+    }
 }

@@ -19,6 +19,13 @@
               <span style="color:#83b2ef;font-weight:bolder">
                 {{summaryData.People_partially_vaccinated}}</span>
         </el-descriptions-item>
+        <el-descriptions-item label="Data Source" class="source">
+                <el-link :underline='false' v-bind:href="'https://coronavirus.jhu.edu/about/how-to-use-our-data'">
+                  <span style="color:#1d86ee;font-weight:bolder">
+                    Johns Hopkins (Click here to find the data source)
+                  </span>
+                </el-link>
+        </el-descriptions-item>
       </el-descriptions>
       <span style="color:black;font-weight:bolder">Current Data Type:</span>
       <el-select v-model="value" placeholder="data type" @change="onSubmit">
@@ -50,9 +57,9 @@ export default {
         People_partially_vaccinated:'',
         People_fully_vaccinated:''
       },
-      toolBarText:"Doses administered: ",
-      toolBarText2:"Fully Vaccinated: ",
-      toolBarText3 :"Partially Vaccinated: ",
+      toolBarText:"Doses administered per person: ",
+      toolBarText2:"Fully Vaccinated Rate: ",
+      toolBarText3 :"Partially Vaccinated Rate: ",
       optionType:'map',
       value:'Doses'
     };
@@ -68,11 +75,10 @@ export default {
     {
       let data = await vaccineDataProcess(this.value)
       let res = await getWorldSumVaccineData()
-      console.log(res.data)
-      this.summaryData.Date = res.data.Date
-      this.summaryData.does_admin = res.data.Doses_admin
-      this.summaryData.People_partially_vaccinated = res.data.People_partially_vaccinated
-      this.summaryData.People_fully_vaccinated = res.data.People_fully_vaccinated
+      this.summaryData.Date = res.data.date
+      this.summaryData.does_admin = res.data.doses_admin
+      this.summaryData.People_partially_vaccinated = res.data.people_partially_vaccinated
+      this.summaryData.People_fully_vaccinated = res.data.people_fully_vaccinated
       let context =this
       this.drawChart(context,data)
     },
@@ -112,20 +118,21 @@ export default {
           // mainly used in scatter charts, pie charts and other charts without category axes
           formatter: function (val) {
             if(val.data == null) return ;
-            return '<span style="font-weight:bold">'+val.data.name +'</span>'+'<br/>'+
-              context.toolBarText + '<span style="color:green;font-weight:bolder">'+val.data.value[2]+'</span>'+
-              '<br/>'+context.toolBarText2+'<span style="color:#0a6f7a;font-weight:bolder">'+val.data.other[1]+'</span>'
-              +'<br/>'+context.toolBarText3+'<span style="color:#83b2ef;font-weight:bolder">'+val.data.other[0]+'</span>'
+            return '<span style="font-weight:bold">'+val.data.name +'</span><br/>'+'<span style="font-weight:bold">'
+              +context.toolBarText+parseFloat(val.data.value[2].toFixed(4))+'</span><br/>'
+              +'Doses administered: '+ '<span style="color:green;font-weight:bolder">'+val.data.other[0]+'</span>'+
+              '<br/> Fully Vaccinated: '+'<span style="color:#0a6f7a;font-weight:bolder">'+val.data.other[2]+'</span>'
+              +'<br/> Partially Vaccinated: '+'<span style="color:#83b2ef;font-weight:bolder">'+val.data.other[1]+'</span>'
           }
         },
         // Visual mapping component
         visualMap: {
           min: 0,
-          max: data[data.length-3].value[2],
+          max: 2,
           text:['max','min'],
           realtime: false,
           calculable: true,
-          color: ['#2cd300','#e1f5d8'],
+          color: ['#2cd300','#a5da97','#ffad98','#a92020'],
         },
         series: [
           {
@@ -237,27 +244,31 @@ export default {
       };
       if(this.value==="fully")
       {
-        option.visualMap.color = ['#0a6f7a','#d1ebef']
+        option.visualMap.color = ['#0a6f7a','#d1ebef','#ffad98','#a92020']
+        option.visualMap.max = 1
+        option.tooltip.formatter =function (val) {
+        if(val.data == null) return ;
+        return '<span style="font-weight:bold">'+val.data.name +'</span><br/>'+'<span style="font-weight:bold">'
+          +context.toolBarText2+parseFloat(val.data.value[2].toFixed(4))+'</span><br/>'
+          +'Doses administered: '+ '<span style="color:green;font-weight:bolder">'+val.data.other[0]+'</span>'+
+          '<br/> Fully Vaccinated: '+'<span style="color:#0a6f7a;font-weight:bolder">'+val.data.other[2]+'</span>'
+          +'<br/> Partially Vaccinated: '+'<span style="color:#83b2ef;font-weight:bolder">'+val.data.other[1]+'</span>'
+      }
         barOption.series.itemStyle.color='#0a6f7a'
-        option.tooltip.formatter= function(val) {
-          if(val.data == null) return ;
-          return '<span style="font-weight:bold">'+val.data.name +'</span>'+'<br/>'+
-            context.toolBarText + '<span style="color:green;font-weight:bolder">'+val.data.other[0]+'</span>'+
-            '<br/>'+context.toolBarText2+'<span style="color:#0a6f7a;font-weight:bolder">'+val.data.value[2]+'</span>'
-            +'<br/>'+context.toolBarText3+'<span style="color:#83b2ef;font-weight:bolder">'+val.data.other[1]+'</span>'
-        }
       }
       else if(this.value==="partially")
       {
-        option.visualMap.color = ['#83b2ef','#eaf1f3']
-        barOption.series.itemStyle.color='#83b2ef'
-        option.tooltip.formatter= function(val) {
+        option.visualMap.color = ['#83b2ef','#eaf1f3','#ffad98','#a92020']
+        option.visualMap.max = 1
+        option.tooltip.formatter =function (val) {
           if(val.data == null) return ;
-          return '<span style="font-weight:bold">'+val.data.name +'</span>'+'<br/>'+
-            context.toolBarText + '<span style="color:green;font-weight:bolder">'+val.data.other[0]+'</span>'+
-            '<br/>'+context.toolBarText2+'<span style="color:#0a6f7a;font-weight:bolder">'+val.data.other[1]+'</span>'
-            +'<br/>'+context.toolBarText3+'<span style="color:#83b2ef;font-weight:bolder">'+val.data.value[2]+'</span>'
+          return '<span style="font-weight:bold">'+val.data.name +'</span><br/>'+'<span style="font-weight:bold">'
+            +context.toolBarText3+parseFloat(val.data.value[2].toFixed(4))+'</span><br/>'
+            +'Doses administered: '+ '<span style="color:green;font-weight:bolder">'+val.data.other[0]+'</span>'+
+            '<br/> Fully Vaccinated: '+'<span style="color:#0a6f7a;font-weight:bolder">'+val.data.other[2]+'</span>'
+            +'<br/> Partially Vaccinated: '+'<span style="color:#83b2ef;font-weight:bolder">'+val.data.other[1]+'</span>'
         }
+        barOption.series.itemStyle.color='#83b2ef'
       }
       if(context.optionType==='bar')
       {

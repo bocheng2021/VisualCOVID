@@ -12,5 +12,9 @@ module.exports = [
     {
       name: 'Vaccine Data',
       componentName: 'VaccineData'
-    }]
+    },
+    {
+      name: 'Data Reliability',
+      componentName: 'data_reliability'
+    },]
 }]

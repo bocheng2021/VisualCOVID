@@ -102,10 +102,12 @@ export default {
               else if(idx ===1)
               {
                 data.data2.push([date[i],res[i].Confirmed - res[i-1].Confirmed])
+
               }
               else
               {
                 data.data3.push([date[i],res[i].Confirmed - res[i-1].Confirmed])
+
               }
             }
             else if(that.DateCurr==="New_Deaths")
@@ -117,8 +119,7 @@ export default {
                   data.data1.push([date[i],res[i].Deaths])
                 }
                 else {
-                  data.data1.push([date[i],res[i].Deaths - res[i-1].Deaths])
-                }
+                  data.data1.push([date[i],res[i].Deaths - res[i-1].Deaths])}
               }
               else if(idx ===1)
               {
@@ -130,7 +131,6 @@ export default {
               }
             }
           }
-          console.log(Math.max.apply(null,data.data1))
           if (i===0)
           {
             messageBox1(that)
@@ -227,7 +227,7 @@ export default {
       option && chart.setOption(option);
     },
     compareArr(arr){
-      let num1 = 0
+      let num1 =0
       let num2 =0
       let num3 =0
       for(let i=0; i<arr.data1.length; i++){

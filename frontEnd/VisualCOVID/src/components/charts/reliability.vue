@@ -1,19 +1,26 @@
 <template>
-
+  <el-card class="box-card">
+    <div class='reliability_line' id='reliability_line'></div>
+    <el-descriptions title="Data Info">
+      <el-descriptions-item label="Data Sampling Time ">2022-7-25</el-descriptions-item>
+      <el-descriptions-item label="Data Source ">
+              <span style="color:black;font-weight:bolder">Postman</span>
+      </el-descriptions-item>
+    </el-descriptions>
+  </el-card>
 </template>
 
 <script>
 import {getAllCountriesData,
-  messageBox1,
-  nameProcess
 } from "../../utils/timeLineDataProcess";
 import $ from "jquery";
+import * as echarts from "echarts";
 
 export default {
   name: "reliability",
   data(){
     return{
-      CurrName:['United Kingdom'],
+      CurrCountries:['United Kingdom','United States of America','China','Japan','Austria','Canada','France','Germany'],
       countries: [{
         name: 'United Kingdom',
         slug: 'United Kingdom',},
@@ -21,10 +28,128 @@ export default {
           name: 'United States of America',
           slug: 'United States of America',
         }],
-      leading_digits:[]
     }
   },
   methods:{
+    getReliabilityData()
+    {
+      const that = this
+      let i =0
+      let data =[]
+      for ( i in this.CurrCountries)
+      {
+        $.ajax({
+          type: 'get',
+          url: 'http://localhost:8081/getReliabilityDataByCountry?name=' + that.CurrCountries[i],
+          dataType: 'json',
+          success: function (res) {
+            data.push([res.freq_1,res.freq_2,res.freq_3,res.freq_4,
+              res.freq_5,res.freq_6,res.freq_7,res.freq_8,res.freq_9])
+            if (data.length===that.CurrCountries.length){
+              that.drawFreqChart(data)
+            }
+          },
+        })
+      }
+    },
+    drawFreqChart(data)
+    {
+      console.log(data)
+      let chart = echarts.init(document.getElementById('reliability_line'),'vintage',
+        {locale:'EN'}
+      )
+      window.addEventListener('resize', function () {
+        chart.resize()
+      })
+      chart.hideLoading();
+      let option = {
+        title: {
+          text: 'Frequency Line Chart'
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: ['United Kingdom','United States of America','China','Japan','Austria','Canada','France','Germany']
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {},
+            dataView: {
+              show: true,
+              readOnly: false,
+            },
+          }
+        },
+        xAxis: {
+          type: 'category',
+          name: 'Digit',
+          boundaryGap: false,
+          data: ['1', '2', '3', '4', '5', '6', '7','8','9']
+        },
+        yAxis: {
+          type: 'value',
+          name: 'Digit Frequency',
+        },
+        series: [
+          {
+            name: 'United Kingdom',
+            type: 'line',
+            stack: 'Total',
+            data: data[0]
+          },
+          {
+            name: 'United States of America',
+            type: 'line',
+            stack: 'Total',
+            data: data[1]
+          },
+          {
+            name: 'China',
+            type: 'line',
+            stack: 'Total',
+            data: data[2]
+          },
+          {
+            name: 'Japan',
+            type: 'line',
+            stack: 'Total',
+            data: data[3]
+          },
+          {
+            name: 'Austria',
+            type: 'line',
+            stack: 'Total',
+            data: data[4]
+          },
+          {
+            name: 'Canada',
+            type: 'line',
+            stack: 'Total',
+            data: data[5]
+          },
+          {
+            name: 'France',
+            type: 'line',
+            stack: 'Total',
+            data: data[6]
+          },
+          {
+            name: 'Germany',
+            type: 'line',
+            stack: 'Total',
+            data: data[7]
+          }
+        ]
+      };
+      option && chart.setOption(option);
+    },
     async processSlugData() {
       this.countries = await getAllCountriesData()
       const that= this
@@ -80,11 +205,18 @@ export default {
     }
   },
   mounted() {
-    console.log(this.leading_digits)
+    this.getReliabilityData()
   }
 }
 </script>
 
 <style scoped>
-
+.reliability_line {
+  width: 100%;
+  height: 400px;
+  margin-top: 20px;
+}
+.el-card{
+  margin-top: 20px;
+}
 </style>

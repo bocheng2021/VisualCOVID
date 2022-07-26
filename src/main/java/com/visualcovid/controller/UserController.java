@@ -1,6 +1,7 @@
 package com.visualcovid.controller;
 
 import com.visualcovid.entity.CountryData;
+import com.visualcovid.entity.ReliabilityData;
 import com.visualcovid.entity.VaccineData;
 import com.visualcovid.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,11 @@ public class UserController {
                                    double freq_5,double freq_6,double freq_7,double freq_8,double freq_9)
     {
         service.insert_reliability(name,slug,freq_1,freq_2,freq_3,freq_4,freq_5,freq_6,freq_7,freq_8,freq_9);
+    }
+
+    @GetMapping("/getReliabilityDataByCountry")
+    public ReliabilityData getReliabilityDataByCountry(String name)
+    {
+        return service.getReliabilityDataByCountry(name);
     }
 }

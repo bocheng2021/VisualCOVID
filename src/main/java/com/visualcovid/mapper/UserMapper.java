@@ -1,6 +1,7 @@
 package com.visualcovid.mapper;
 
 import com.visualcovid.entity.CountryData;
+import com.visualcovid.entity.ReliabilityData;
 import com.visualcovid.entity.VaccineData;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -40,4 +41,6 @@ public interface UserMapper {
     @Select("select * from vaccinedata where Country_Region ='World'")
     VaccineData getWorldSumVaccineData();
 
+    @Select("select * from reliability where name= #{name}")
+    ReliabilityData getReliabilityDataByCountry(String name);
 }

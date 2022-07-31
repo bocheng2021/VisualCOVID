@@ -3,6 +3,7 @@ package com.visualcovid.controller;
 import com.visualcovid.entity.CountryData;
 import com.visualcovid.entity.ReliabilityData;
 import com.visualcovid.entity.VaccineData;
+import com.visualcovid.service.DataProcessService;
 import com.visualcovid.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +18,9 @@ public class UserController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private DataProcessService dataProcessService;
 
     @GetMapping("/getCountrySlugByDataBase")
     public CountryData getCountrySlug(String name){
@@ -70,19 +74,25 @@ public class UserController {
     }
 
     /*
-    most data inserted on 2022/7/25
+    most data inserted on 2022/7/31
     *
     */
     @GetMapping("/insert_reliabilityData")
-    public void insert_reliability(String name, String slug, double freq_1,double freq_2,double freq_3,double freq_4,
+    public void insert_reliability(String name, String slug, int number, double freq_1,double freq_2,double freq_3,double freq_4,
                                    double freq_5,double freq_6,double freq_7,double freq_8,double freq_9)
     {
-        service.insert_reliability(name,slug,freq_1,freq_2,freq_3,freq_4,freq_5,freq_6,freq_7,freq_8,freq_9);
+        service.insert_reliability(name,slug,number,freq_1,freq_2,freq_3,freq_4,freq_5,freq_6,freq_7,freq_8,freq_9);
     }
 
     @GetMapping("/getReliabilityDataByCountry")
     public ReliabilityData getReliabilityDataByCountry(String name)
     {
         return service.getReliabilityDataByCountry(name);
+    }
+
+    @GetMapping("/getAndProcessFlag")
+    public void getAndProcessFlag()
+    {
+        dataProcessService.getAndProcessFlag();
     }
 }

@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <el-col :span="24">
-    <div class="head-wrap">Visualization of COVID-2019</div>
+    <div class="head-wrap">Visualization of COVID-2019 Data</div>
     </el-col>
   </el-row>
 </template>

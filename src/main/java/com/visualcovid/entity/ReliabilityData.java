@@ -10,6 +10,7 @@ import lombok.ToString;
 public class ReliabilityData {
     String name;
     String slug;
+    int number;
     int flag;
     double d_factor;
     double MAD;

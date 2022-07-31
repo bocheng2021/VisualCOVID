@@ -6,6 +6,7 @@ import com.visualcovid.entity.VaccineData;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.sql.Date;
 
@@ -17,9 +18,9 @@ public interface UserMapper {
     @Select("select * from countries where Name=#{name}")
     CountryData getCountrySlugByName(String name);
 
-    @Insert("insert into reliability values(#{name},#{slug},0,0,0,0,#{freq_1},#{freq_2},#{freq_3},#{freq_4},#{freq_5}," +
+    @Insert("insert into reliability values(#{name},#{slug},#{number},0,0,0,0,#{freq_1},#{freq_2},#{freq_3},#{freq_4},#{freq_5}," +
             "#{freq_6},#{freq_7},#{freq_8},#{freq_9})")
-    void insert_reliability(String name, String slug, double freq_1,double freq_2,double freq_3,double freq_4,
+    void insert_reliability(String name, String slug, int number, double freq_1,double freq_2,double freq_3,double freq_4,
                             double freq_5,double freq_6,double freq_7,double freq_8,double freq_9);
 
     @Insert("insert into vaccinedata values(#{CountryName},#{date},#{doses},#{partially_vaccinated},#{fully_vaccinated})")
@@ -43,4 +44,10 @@ public interface UserMapper {
 
     @Select("select * from reliability where name= #{name}")
     ReliabilityData getReliabilityDataByCountry(String name);
+
+    @Select("select * from reliability")
+    ReliabilityData[] getAllReliabilityData();
+
+    @Update("update reliability set flag= #{flag},d_factor=#{d_factor},SSD=#{SSD},MAD=#{MAD} where slug=#{slug}")
+    void updateReliabilityDataByCountry(String slug,int flag, double d_factor, double SSD, double MAD);
 }

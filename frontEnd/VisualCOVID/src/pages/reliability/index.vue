@@ -1,7 +1,7 @@
 <template>
   <el-container style="height: 100%">
     <el-main>
-      <h3>Major Countries Leading digits Frequency Based on New Cases</h3>
+      <h3>Leading Digital Frequencies for Major Countries Based on New Cases</h3>
       <reliability></reliability>
     </el-main>
   </el-container>

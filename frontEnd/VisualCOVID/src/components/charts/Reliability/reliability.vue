@@ -1,5 +1,6 @@
 <template>
   <el-card class="box-card">
+    <h3 style="text-align: center">Leading Digital Frequencies for Major Countries Based on New Cases</h3>
     <div class='reliability_line' id='reliability_line'></div>
     <el-descriptions title="Data Info">
       <el-descriptions-item label="Data Sampling Time ">2022-7-31</el-descriptions-item>
@@ -11,7 +12,7 @@
 </template>
 
 <script>
-import {getAllCountriesData} from "../../utils/timeLineDataProcess";
+import {getAllCountriesData} from "../../../utils/timeLineDataProcess";
 import $ from "jquery";
 import * as echarts from "echarts";
 let j = 0;

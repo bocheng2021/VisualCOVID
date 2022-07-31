@@ -32,7 +32,7 @@ public class DataProcessService {
             ssd = Cum_Sum_Of_Squares * 10000;
             mad = mad/freq_curr.length;
             d_factor = Math.sqrt(Cum_Sum_Of_Squares)/1.03606;
-            if (mad>0.015 && ssd>100 && d_factor>0.2)
+            if ((mad>0.015 && ssd>100) ||(mad>0.015&&d_factor>0.2) || (ssd>100 && d_factor>0.2))
             {
                 flag =2;
             }

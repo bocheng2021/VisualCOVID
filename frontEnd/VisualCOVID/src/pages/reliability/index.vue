@@ -1,17 +1,18 @@
 <template>
   <el-container style="height: 100%">
     <el-main>
-      <h3>Leading Digital Frequencies for Major Countries Based on New Cases</h3>
+      <reliability_world-map></reliability_world-map>
       <reliability></reliability>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import Reliability from "../../components/charts/reliability";
+import Reliability from "../../components/charts/Reliability/reliability";
+import Reliability_worldMap from "../../components/charts/Reliability/reliability_worldMap";
 export default {
   name: "index",
-  components: {Reliability}
+  components: {Reliability_worldMap, Reliability}
 }
 </script>
 

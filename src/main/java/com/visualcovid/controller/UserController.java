@@ -90,6 +90,12 @@ public class UserController {
         return service.getReliabilityDataByCountry(name);
     }
 
+    @GetMapping("/getAllReliabilityData")
+    public ReliabilityData[] getAllReliabilityData()
+    {
+        return service.getAllReliabilityData();
+    }
+
     @GetMapping("/getAndProcessFlag")
     public void getAndProcessFlag()
     {

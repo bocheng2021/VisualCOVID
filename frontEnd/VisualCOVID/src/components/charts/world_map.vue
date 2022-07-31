@@ -295,7 +295,6 @@ export default {
   width: 80%;
   margin:0 auto;
   height: 600px;
-  /* background: url(../../public/static/bg.png) no-repeat; 背景图设置*/
   background-size: 100% 100%;
 }
 </style>

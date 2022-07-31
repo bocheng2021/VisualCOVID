@@ -152,4 +152,8 @@ public class UserService {
     public ReliabilityData getReliabilityDataByCountry(String name) {
         return mapper.getReliabilityDataByCountry(name);
     }
+    @Transactional
+    public ReliabilityData[] getAllReliabilityData() {
+        return mapper.getAllReliabilityData();
+    }
 }

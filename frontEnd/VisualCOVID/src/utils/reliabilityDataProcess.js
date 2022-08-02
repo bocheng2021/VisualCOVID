@@ -23,7 +23,8 @@ export async function reliabilityDataProcess()
       const mad = data.data[i].mad;
       const d_factor = data.data[i].d_factor;
       let inputName = countryTransferForMap(countryName)
-      res[index]={name:inputName,value:[value0,value1,value2],other:[ssd,mad,d_factor]}
+      res[index]={name:inputName,value:[value0,value1,value2],other:[ssd.toFixed(4),
+          mad.toFixed(4),d_factor.toFixed(4)]}
       index++
     }
   }

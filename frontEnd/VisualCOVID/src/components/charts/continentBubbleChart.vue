@@ -70,7 +70,6 @@ export default {
           trigger: 'item', // Trigger type, data item graph trigger,
           // mainly used in scatter charts, pie charts and other charts without category axes
           formatter: function (val) {
-            console.log(val)
             if(val.data == null) return ;
             return '<span style="font-weight:bold">'+val.data[2] +'</span><br/>'+'<span style="font-weight:bold;' +
               'color: darkgreen">' + 'Total Confirmed: ' +val.data[0] +'</span><br/>'+'<span style="font-weight:bold;' +

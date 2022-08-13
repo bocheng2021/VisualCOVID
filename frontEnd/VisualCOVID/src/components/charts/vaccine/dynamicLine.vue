@@ -128,13 +128,13 @@ export default {
 <style scoped>
 .dynamic {
   width: 100%;
-  height: 600px;
+  height: 550px;
   margin-top: 20px;
 }
 .el-card{
   margin-top: 20px;
 }
 .el-descriptions{
-  margin-top: 20px;
+  margin-top: 10px;
 }
 </style>

@@ -311,11 +311,11 @@ export default {
 <style scoped>
 .continent {
   width: 100%;
-  height: 400px;
+  height: 300px;
   margin-top: 20px;
 }
 .el-card{
-  margin-top: 20px;
+  margin: 20px 10px 20px 10px;
 }
 .el-descriptions{
   margin-top: 20px;

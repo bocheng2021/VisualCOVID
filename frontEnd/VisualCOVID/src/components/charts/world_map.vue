@@ -294,7 +294,10 @@ export default {
 .wrapper .chart {
   width: 80%;
   margin:0 auto;
-  height: 600px;
+  height: 500px;
   background-size: 100% 100%;
+}
+.el-card{
+  margin: 10px 10px 20px 10px;
 }
 </style>

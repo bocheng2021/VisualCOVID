@@ -293,7 +293,7 @@ export default {
 .wrapper .vaccineMap {
   width: 80%;
   margin:0 auto;
-  height: 600px;
+  height: 550px;
   background-size: 100% 100%;
 }
 </style>

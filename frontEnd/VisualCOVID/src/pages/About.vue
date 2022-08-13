@@ -3,6 +3,9 @@
     <el-card class="card_left">
       <span style="color:black;font-weight:bolder;font-size: 20px"></span>
     </el-card>
+    <el-card class="card_left">
+      <span style="color:black;font-weight:bolder;font-size: 20px"></span>
+    </el-card>
   </el-container>
 </template>
 

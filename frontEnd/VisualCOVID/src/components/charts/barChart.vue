@@ -179,10 +179,10 @@ export default {
 <style scoped>
 .bar-chart {
   width: 100%;
-  height: 400px;
+  height: 300px;
   margin-top: 20px;
 }
 .el-card{
-  margin-top: 20px;
+  margin: 10px 10px 10px 10px;
 }
 </style>

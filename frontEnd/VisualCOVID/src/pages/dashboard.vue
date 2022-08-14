@@ -41,4 +41,7 @@ export default {
   height: auto;
   background-color: #545c64;
 }
+.el-main{
+  background-color: #f7f8fa;
+}
 </style>

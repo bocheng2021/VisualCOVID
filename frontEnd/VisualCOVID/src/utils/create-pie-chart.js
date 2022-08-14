@@ -26,3 +26,25 @@ export function processPostmanAPIPieData(data,type)
     seriesData: seriesData
   };
 }
+
+export function processPostmanAPIRosePieData(data)
+{
+  let countriesData = data.Countries
+  const seriesData = [];
+  let i = 0;
+  for(i in countriesData)
+  {
+    const countryName = countriesData[i].Country;
+    let valueData = countriesData[i].TotalDeaths
+    seriesData.push({
+      value: valueData,
+      name: countryName,
+    });
+  }
+  seriesData.sort(function (a, b) {
+    return b.value-a.value;
+  });
+  return seriesData.slice(0, 10)
+}
+
+

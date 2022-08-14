@@ -1,11 +1,31 @@
 <template>
+  <el-container>
   <el-card class="box-card">
-    <div class='wrapper'>
-      <div class='chart' id='chart'>
-      </div>
+    <div class='chart' id='chart'>
     </div>
     <div class="tool-bar" id="map_toolbar">
-      <el-descriptions title="Current Data Info">
+      <el-row :gutter="40">
+        <el-col :span="10">
+          <span style="color:black;font-weight:bolder">Change Data Type:</span>
+          <el-select v-model="value" placeholder="data type" @change="onSubmit" style="margin-top: 10px">
+            <el-option label="Total Death" value="total_2d_death"></el-option>
+            <el-option label="Total Confirm" value="total_2d"></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="10">
+          <span style="color:black;font-weight:bolder;">Change Graphics Type:</span>
+          <el-select v-model="optionType" placeholder="data type" @change="switchGraphics" style="margin-top: 10px">
+            <el-option label="World Map" value="map"></el-option>
+            <el-option label="Bar Graph" value="bar"></el-option>
+          </el-select>
+        </el-col>
+      </el-row>
+    </div>
+  </el-card>
+    <el-card>
+      <div class='roseChart' id='roseChart'>
+      </div>
+      <el-descriptions title="Current Data Info" style="font-size: 12px">
         <el-descriptions-item label="Date ">{{DateCurr}}</el-descriptions-item>
         <el-descriptions-item label="Total Confirmed ">
               <span style="color:green;font-weight:bolder">
@@ -24,24 +44,15 @@
               {{summaryData.NewDeaths}}</span>
         </el-descriptions-item>
       </el-descriptions>
-      <span style="color:black;font-weight:bolder">Current Data Type:</span>
-      <el-select v-model="value" placeholder="data type" @change="onSubmit">
-        <el-option label="Total Death" value="total_2d_death"></el-option>
-        <el-option label="Total Confirm" value="total_2d"></el-option>
-      </el-select>
-      <span style="color:black;font-weight:bolder;padding-left: 10px"> Current Graphics Type:</span>
-      <el-select v-model="optionType" placeholder="data type" @change="switchGraphics">
-        <el-option label="World Map" value="map"></el-option>
-        <el-option label="Bar Graph" value="bar"></el-option>
-      </el-select>
-    </div>
-  </el-card>
+    </el-card>
+  </el-container>
 </template>
 
 <script>
 import $ from "jquery";
 import {processPostmanAPIEarthData} from "../../utils/create-earth";
 import * as echarts from "echarts";
+import {processPostmanAPIPieData, processPostmanAPIRosePieData} from "../../utils/create-pie-chart";
 
 export default {
   name: "world_map",
@@ -58,7 +69,8 @@ export default {
       toolBarText :"Total Confirmed: ",
       toolBarText2:"Total Deaths: ",
       value: 'total_2d',
-      optionType:'map'
+      optionType:'map',
+      MajorCountries: ['United Kingdom','United States of America','China','Japan','Russia','Austria','Canada','France','Germany'],
     };
   },
   methods: {
@@ -80,10 +92,12 @@ export default {
         success :function (res)
         {
           let data = processPostmanAPIEarthData(res,that.value)
+          let pieData = processPostmanAPIRosePieData(res,that.MajorCountries)
           that.summaryData = res.Global
           that.data = data
           that.DateCurr = that.summaryData.Date.split('T')[0]
           that.drawChart(that,data,that.optionType)
+          that.drawRoseChart(pieData)
         }
       })
     },
@@ -105,7 +119,7 @@ export default {
           top: 10,
           left: 'center',
           textStyle: {
-            fontSize: 24,
+            fontSize: 18,
             fontWeight: 600,
             color: '#000'
           }
@@ -176,11 +190,11 @@ export default {
       }
       const barOption = {
         title: {
-          text: 'The latest ranking chart of coronavirus (COVID-19) cases by country',
+          text: 'Latest (COVID-19) Case Ranking Chart by Country',
           top: 10,
           left: 'center',
           textStyle: {
-            fontSize: 24,
+            fontSize: 18,
             fontWeight: 600,
             color: '#000'
           }
@@ -266,6 +280,70 @@ export default {
         chart.setOption(option, true)
       }
     },
+    drawRoseChart(data)
+    {
+      let chart = echarts.init(document.getElementById('roseChart'),'vintage',
+        {locale:'EN'})
+      window.addEventListener('resize', function () {
+        chart.resize()
+      })
+      chart.hideLoading();
+      let option = {
+        title: {
+          text: 'Countries with the most deaths',
+          left: 'center',
+          top: 20,
+          textStyle: {
+            color: 'black'
+          }
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        visualMap: {
+          show: false,
+          min: 0,
+          max: data[0].value*2,
+          inRange: {
+            colorLightness: [0, 1]
+          }
+        },
+        series: [
+          {
+            name: 'Total death',
+            type: 'pie',
+            radius: '65%',
+            center: ['50%', '50%'],
+            data: data.sort(function (a, b) {
+              return a.value - b.value;
+            }),
+            roseType: 'radius',
+            label: {
+              color: 'black'
+            },
+            labelLine: {
+              lineStyle: {
+                color: 'black'
+              },
+              smooth: 0.2,
+              length: 10,
+              length2: 20
+            },
+            itemStyle: {
+              color: 'red',
+              shadowBlur: 50,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            },
+            animationType: 'scale',
+            animationEasing: 'elasticOut',
+            animationDelay: function (idx) {
+              return Math.random() * 200;
+            }
+          }
+        ]
+      };
+      option && chart.setOption(option);
+    },
   },
   mounted() {
     this.runWorldMap()
@@ -288,16 +366,21 @@ export default {
 </script>
 
 <style scoped>
-.wrapper {
+.chart {
   width: 100%;
-}
-.wrapper .chart {
-  width: 80%;
+  height: 400px;
   margin:0 auto;
-  height: 500px;
-  background-size: 100% 100%;
+}
+.tool-bar{
+  margin-top: 20px;
+}
+.roseChart {
+  width: 100%;
+  height: 400px;
+  margin-top: 20px;
 }
 .el-card{
+  width: 55%;
   margin: 10px 10px 20px 10px;
 }
 </style>

@@ -1,8 +1,6 @@
 <template>
   <el-card class="box-card">
-    <div class='wrapper'>
-      <div class='reliability_worldMap' id='reliability_worldMap'>
-      </div>
+    <div class='reliability_worldMap' id='reliability_worldMap'>
     </div>
     <el-descriptions title="Data Info">
       <el-descriptions-item label="Data Sampling Time ">2022-7-31</el-descriptions-item>
@@ -146,13 +144,11 @@ export default {
 </script>
 
 <style scoped>
-.wrapper .reliability_worldMap {
+.reliability_worldMap {
   width: 80%;
   margin:0 auto;
   height: 600px;
   background-size: 100% 100%;
 }
-.wrapper {
-  width: 100%;
-}
+
 </style>

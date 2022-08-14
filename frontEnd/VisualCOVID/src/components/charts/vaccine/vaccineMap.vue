@@ -1,9 +1,7 @@
 <template>
   <el-card class="box-card">
-  <div class='wrapper'>
     <div class='vaccineMap' id='vaccineMap'>
     </div>
-  </div>
     <div class="tool-bar" id="map_toolbar">
       <el-descriptions title="Current Data Info">
         <el-descriptions-item label="Date ">{{summaryData.Date}}</el-descriptions-item>
@@ -97,10 +95,10 @@ export default {
         // main title
         title: {
           text: 'Coronavirus (COVID-19) Vaccination World Map Visualization',
-          top: 10,
+          top: 5,
           left: 'center',
           textStyle: {
-            fontSize: 24,
+            fontSize: 22,
             fontWeight: 600,
             color: '#000'
           }
@@ -111,6 +109,7 @@ export default {
           left: '0%',
           right: '0%',
           bottom: '0%',
+          top:  '10%',
           containLabel: true
         },
         tooltip: {
@@ -287,13 +286,9 @@ export default {
 </script>
 
 <style scoped>
-.wrapper {
+.vaccineMap {
   width: 100%;
-}
-.wrapper .vaccineMap {
-  width: 80%;
   margin:0 auto;
-  height: 550px;
-  background-size: 100% 100%;
+  height: 450px;
 }
 </style>

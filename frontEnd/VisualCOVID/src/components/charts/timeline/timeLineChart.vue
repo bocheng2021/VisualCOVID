@@ -32,7 +32,6 @@
 import $ from "jquery";
 import {countryProcess, messageBox1, nameProcess} from "../../../utils/timeLineDataProcess";
 import * as echarts from "echarts";
-import {test} from "../../../utils/create-bar-charts";
 
 export default {
   name: "timeLineChart",
@@ -46,7 +45,7 @@ export default {
         {
           value: 'United States of America',
           label: 'United States of America',
-        }]
+        }],
     }
   },
   methods:{

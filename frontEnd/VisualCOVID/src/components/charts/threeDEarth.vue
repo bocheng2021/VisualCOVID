@@ -1,38 +1,41 @@
 <template>
-  <el-container style="height: 100%">
+  <el-container style="height: 100%;">
     <el-main>
-      <el-card class="box-card">
-      <div class='wrapper'>
-        <div class='chart' id='earth'>
-        </div>
-      </div>
-      </el-card>
-      <div class="tool-bar" id="map_toolbar">
-        <el-descriptions title="Current Data Info">
-          <el-descriptions-item label="Date ">{{DateCurr}}</el-descriptions-item>
-          <el-descriptions-item label="Total Confirmed ">
-              <span style="color:green;font-weight:bolder">
+      <el-row>
+        <el-col>
+          <div class='chart' id='earth'>
+          </div>
+        </el-col>
+        <el-col>
+          <el-card class="tool-bar">
+            <el-descriptions title="Current Data Info">
+              <el-descriptions-item label="Date " class="info-descriptions">{{DateCurr}}
+              </el-descriptions-item>
+              <el-descriptions-item label="Total Confirmed " class="info-descriptions">
+              <span style="color:green;font-weight:bolder;">
                 {{summaryData.TotalConfirmed}}</span>
-          </el-descriptions-item>
-          <el-descriptions-item label="Total Deaths ">
+              </el-descriptions-item>
+              <el-descriptions-item label="Total Deaths " class="info-descriptions">
               <span style="color:red;font-weight:bolder">
                 {{summaryData.TotalDeaths}}</span>
-          </el-descriptions-item>
-          <el-descriptions-item label="New Confirmed ">
+              </el-descriptions-item>
+              <el-descriptions-item label="New Confirmed " class="info-descriptions">
               <span style="color:green;font-weight:bolder">
                 {{summaryData.NewConfirmed}}</span>
-          </el-descriptions-item>
-          <el-descriptions-item label="New Deaths ">
+              </el-descriptions-item>
+              <el-descriptions-item label="New Deaths " class="info-descriptions">
               <span style="color:red;font-weight:bolder">
               {{summaryData.NewDeaths}}</span>
-          </el-descriptions-item>
-        </el-descriptions>
-        <span style="color:black;font-weight:bolder">Current Data Type:</span>
-        <el-select v-model="type" placeholder="data type" @change="onSubmit">
-          <el-option label="Total Death" value="total_3d_2"></el-option>
-          <el-option label="Total Confirm" value="total_3d_1"></el-option>
-        </el-select>
-      </div>
+              </el-descriptions-item>
+            </el-descriptions>
+            <span style="color:black;font-weight:bolder">Current Data Type:</span>
+            <el-select v-model="type" placeholder="data type" @change="onSubmit">
+              <el-option label="Total Death" value="total_3d_2"></el-option>
+              <el-option label="Total Confirm" value="total_3d_1"></el-option>
+            </el-select>
+          </el-card>
+        </el-col>
+      </el-row>
     </el-main>
   </el-container>
 </template>
@@ -265,18 +268,11 @@ export default {
 </script>
 
 <style scoped>
-.wrapper {
+.chart {
   width: 100%;
-  background-color: black;
-}
-.wrapper .chart {
-  width: 90%;
   margin:0 auto;
-  height: 600px;
-  background-color: black;
+  height: 550px;
   background-size: 100% 100%;
 }
-.tool-bar{
-  margin-top: 20px;
-}
+
 </style>

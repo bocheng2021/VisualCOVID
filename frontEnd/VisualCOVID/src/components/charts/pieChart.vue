@@ -126,7 +126,7 @@ export default {
 <style scoped>
 .pie-chart {
   width: 100%;
-  height: 560px;
+  height: 500px;
   margin-top: 20px;
 }
 .el-card{

@@ -3,8 +3,10 @@
     <el-main>
       <el-row>
         <el-col>
+          <el-card class="Earth-card">
           <div class='chart' id='earth'>
           </div>
+          </el-card>
         </el-col>
         <el-col>
           <el-card class="tool-bar">
@@ -46,7 +48,6 @@ import 'echarts/map/js/world.js'
 import 'echarts-gl'
 import $ from "jquery";
 import bg4 from "../../assets/image/bg4.jpg";
-import worldImg from "../../assets/image/bg4.jpg";
 import starfieldImg from "../../assets/image/starfield.jpg";
 import {processPostmanAPIEarthData, processTencentAPIEarthData} from "../../utils/create-earth";
 
@@ -273,6 +274,9 @@ export default {
   margin:0 auto;
   height: 550px;
   background-size: 100% 100%;
+}
+.Earth-card{
+  background-color: black;
 }
 
 </style>

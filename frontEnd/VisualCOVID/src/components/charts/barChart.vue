@@ -1,6 +1,6 @@
 <template>
   <el-card class="box-card">
-    <h3 style="text-align: center;font-weight: bolder">Latest total confirmed and total deaths of COVID by country</h3>
+    <h3 style="text-align: center;font-weight: bolder">The latest total COVID-19 cases and deaths by country</h3>
     <div class='bar-chart' id='bar-chart'></div>
     <div class="tool-bar" id="bar_toolbar">
       <el-descriptions title="Data Info">

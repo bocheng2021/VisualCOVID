@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <h3 style="text-align: center;font-weight: bolder">
-      Lasted COVID outbreak distribution by continent</h3>
+      Latest COVID distributions by continent</h3>
   <div class="continent" id="continent"></div>
   </el-card>
 </template>

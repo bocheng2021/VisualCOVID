@@ -189,17 +189,17 @@ export default {
         calendar: [
           {
             range: '2020',
-            cellSize: ['auto', 20]
+            cellSize: ['auto', 16]
           },
           {
-            top: 260,
+            top: 220,
             range: '2021',
-            cellSize: ['auto', 20]
+            cellSize: ['auto', 16]
           },
           {
-            top: 450,
+            top: 380,
             range: '2022',
-            cellSize: ['auto', 20],
+            cellSize: ['auto', 16],
             right: 5
           }
         ],
@@ -260,7 +260,7 @@ export default {
 <style scoped>
 .heatmap {
   width: 100%;
-  height: 600px;
+  height: 500px;
   margin-top: 20px;
 }
 .el-card{

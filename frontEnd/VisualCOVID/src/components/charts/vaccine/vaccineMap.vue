@@ -127,7 +127,7 @@ export default {
         // Visual mapping component
         visualMap: {
           min: 0,
-          max: 2,
+          max: 3,
           text:['max','min'],
           realtime: false,
           calculable: true,

@@ -139,7 +139,8 @@ export default {
               yAxisIndex: 'none'
             },
             restore: {},
-            saveAsImage: {}
+            saveAsImage: {},
+            magicType: { show: true, type: ['line', 'bar'] },
           }
         },
         xAxis: {

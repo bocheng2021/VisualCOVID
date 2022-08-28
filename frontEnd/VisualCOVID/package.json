@@ -1,7 +1,13 @@
 {
-  "name": "stdsys",
+  "name": "visualization_covid",
   "version": "1.0.0",
   "description": "VisualizationCovid",
+  "jest": {
+    "verbose": true,
+    "testEnvironmentOptions": {
+      "url": "http://localhost/"
+    }
+  },
   "author": "Yin Bocheng",
   "private": true,
   "scripts": {
